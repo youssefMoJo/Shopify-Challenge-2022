@@ -7,8 +7,7 @@ const MainContainer = styled.div`
   margin: 15px;
   float: left;
   height: 850px;
-//   width: 575px;
-  width: 500px;
+  width: 570px;
   border-radius: 10px;
   background-color: white;
   margin-left: 23px;
