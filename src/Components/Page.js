@@ -29,7 +29,6 @@ class Page extends React.Component {
         let followingTwoDays = new Date(current.getTime() + 172800000).toLocaleDateString().split("/")
         let nextTwoDaysDate = `${followingTwoDays[2]}-${followingTwoDays[1]}-${followingTwoDays[0]}`
 
-
         this.setState({ lastFormatedDate: formatedDate, fromDate: date }, () => {
             axios.get(`https://api.nasa.gov/planetary/apod?api_key=HCNJlv1NpUkMhXdycaSVluE5RHY4GQcYwdz5GU5E&start_date=${formatedDate}&end_date=${nextTwoDaysDate}`).then(response => {
                 this.setState({ data: response.data })
@@ -52,8 +51,6 @@ class Page extends React.Component {
             day = '0' + day;
 
         let formatedDate = [year, month, day].join('-');
-
-
         axios.get(`https://api.nasa.gov/planetary/apod?api_key=HCNJlv1NpUkMhXdycaSVluE5RHY4GQcYwdz5GU5E&start_date=${formatedDate}`).then(response => {
             this.setState({ data: response.data })
         }).catch(function (error) {
@@ -62,10 +59,21 @@ class Page extends React.Component {
     }
     getCards = () => {
         let allCards = []
-        if (this.state.data.length === 1) {
+        if (this.state.data.length === 0) {
             allCards.push(
                 <PostCard
-                    titles={this.state.data[0].title}
+                    title="there is no post now"
+                    date="Null"
+                    explanation="Nothing!!-- Try after a while ;)"
+                    url=""
+                    key={0}
+                />
+            )
+        }
+        else if (this.state.data.length === 1) {
+            allCards.push(
+                <PostCard
+                    title={this.state.data[0].title}
                     date={this.state.data[0].date}
                     explanation={this.state.data[0].explanation}
                     url={this.state.data[0].url}
@@ -76,7 +84,7 @@ class Page extends React.Component {
             for (let i = 0; i < 2; i++) {
                 allCards.push(
                     <PostCard
-                        titles={this.state.data[i].title}
+                        title={this.state.data[i].title}
                         date={this.state.data[i].date}
                         explanation={this.state.data[i].explanation}
                         url={this.state.data[i].url}
@@ -85,11 +93,10 @@ class Page extends React.Component {
                 )
             }
         } else {
-
             for (let i = 0; i <= 2; i++) {
                 allCards.push(
                     <PostCard
-                        titles={this.state.data[i].title}
+                        title={this.state.data[i].title}
                         date={this.state.data[i].date}
                         explanation={this.state.data[i].explanation}
                         url={this.state.data[i].url}
@@ -101,8 +108,6 @@ class Page extends React.Component {
         return allCards
     }
     render() {
-
-
         return (
             <div>
                 {this.state.data === null ? console.log("") :
